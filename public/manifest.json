@@ -1,6 +1,11 @@
 {
   "name": "Khedmety",
   "short_name": "Khedmety",
+  "theme_color": "#201d20",
+  "background_color": "#201d20",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
   "icons": [
     {
       "src": "windows/SmallTile.scale-100.png",
@@ -450,10 +455,5 @@
       "src": "ios/1024.png",
       "sizes": "1024x1024"
     }
-  ],
-  "theme_color": "#201d20",
-  "background_color": "#201d20",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "any"
+  ]
 }

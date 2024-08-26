@@ -6,6 +6,22 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --background-gradient: radial-gradient(
+    circle farthest-corner at 49.7% 0.3%,
+    rgba(205, 162, 112, 1) 0%,
+    rgba(255, 255, 255, 1) 68.7%
+  );
+
+  --champagne: #eedcc3ff;
+  --raisin-black: #19161bff;
+  --copper: #b07740ff;
+  --night: #171417ff;
+  --raisin-black-2: #231f22ff;
+  --raisin-black-3: #1c191cff;
+  --raisin-black-4: #211c20ff;
+  --tan: #e2bc88ff;
+  --earth-yellow: #d5a265ff;
+  --raisin-black-5: #2c2523ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,20 +29,22 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --background-gradient: radial-gradient(
+      circle farthest-corner at 49.7% 0.3%,
+      rgba(150, 72, 37, 1) 0%,
+      rgba(32, 29, 32, 1) 68.7%
+    );
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: #201d20;
+  /* color: rgb(var(--foreground-rgb));
+  background: #201d20; */
+  @apply text-[rgb(var(--foreground-rgb))] bg-neutral;
 }
 
 .main-bg {
-  background-image: radial-gradient(
-    circle farthest-corner at 49.7% 0.3%,
-    rgba(150, 72, 37, 1) 0%,
-    rgba(32, 29, 32, 1) 68.7%
-  );
+  background-image: var(--background-gradient);
 }
 
 @layer utilities {
@@ -44,46 +62,56 @@ header {
 }
 
 /* From Uiverse.io by mahiatlinux */
-.login-form .login-form {
+.login-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: #1f1f1f;
   padding: 30px;
-  width: 450px;
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.login-form ::placeholder {
+.login-container .login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-container ::placeholder {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #aaa;
 }
 
-.login-form .login-form button {
+.login-container .login-form button {
   align-self: flex-end;
 }
 
-.login-form .login-flex-column > label {
+.login-container .login-flex-column > label {
+  color: #f1f1f1;
+  font-weight: 600;
+}
+.login-container .login-form .login-flex-column > label {
   color: #f1f1f1;
   font-weight: 600;
 }
 
-.login-form .login-inputForm {
+.login-container .login-form .login-inputForm {
   border: 1.5px solid #333;
   border-radius: 10px;
   height: 50px;
   display: flex;
   align-items: center;
   padding-left: 10px;
+  padding-right: 10px;
+  gap: 10px;
   transition: 0.2s ease-in-out;
   background-color: #2b2b2b;
 }
 
-.login-form .login-input {
-  margin-left: 10px;
+.login-container .login-form .login-input {
   border-radius: 10px;
   border: none;
   width: 100%;
@@ -92,15 +120,22 @@ header {
   color: #f1f1f1;
 }
 
-.login-form .login-input:focus {
+.login-container .login-form .login-input:focus {
   outline: none;
 }
 
-.login-form .login-inputForm:focus-within {
+.login-container .login-form .login-inputForm:focus-within {
   border: 1.5px solid #2d79f3;
 }
 
-.login-form .login-flex-row {
+.login-container .login-form .login-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+.login-container .login-flex-row {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -108,13 +143,18 @@ header {
   justify-content: space-between;
 }
 
-.login-form .login-flex-row > div > label {
+.login-container .login-flex-row > div > label {
+  font-size: 14px;
+  color: #f1f1f1;
+  font-weight: 400;
+}
+.login-container .login-form .login-flex-row > div > label {
   font-size: 14px;
   color: #f1f1f1;
   font-weight: 400;
 }
 
-.login-form .login-span {
+.login-container .login-form .login-span {
   font-size: 14px;
   margin-left: 5px;
   color: #2d79f3;
@@ -122,7 +162,7 @@ header {
   cursor: pointer;
 }
 
-.login-form .login-button-submit {
+.login-container .login-form .login-button-submit {
   /* margin: 20px 0 10px 0;
   font-size: 15px;
   font-weight: 500;
@@ -133,13 +173,13 @@ header {
   @apply btn btn-primary w-full my-2;
 }
 
-.login-form .login-p {
+.login-container .login-p {
   text-align: center;
   color: #f1f1f1;
   font-size: 14px;
 }
 
-.login-form .login-btn {
+.login-container .login-btn {
   margin-top: 10px;
   width: 100%;
   height: 50px;
@@ -156,6 +196,6 @@ header {
   transition: 0.2s ease-in-out;
 }
 
-.login-form .login-btn:hover {
+.login-container .login-btn:hover {
   border: 1px solid #2d79f3;
 }
