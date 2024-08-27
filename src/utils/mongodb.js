@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI_USERS = process.env.MONGO_URI_USERS;
 
-if (!MONGO_URI) {
-  throw new Error("Please define the MONGO_URI environment variable inside .env");
+if (!MONGO_URI_USERS) {
+  throw new Error("Please define the MONGO_URI_USERS environment variable inside .env");
 }
 
-export default async function dbConnect() {
+export async function usersDBConnect() {
   if(mongoose.connection.readyState !== 1) {
     try {
-      await mongoose.connect(MONGO_URI)
+      await mongoose.connect(MONGO_URI_USERS)
       console.log("DB is connected!")
     } catch (error) {
       console.log(error);

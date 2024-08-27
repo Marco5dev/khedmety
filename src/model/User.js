@@ -20,10 +20,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["owner", "admin", "user"],
+      default: "user",
+    },
+    avatar: {
+      filename: { type: String },
+      contentType: { type: String },
+      base64: { type: String },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
   },
   { timestamps: true }
 );
 
-const User = mongoose.models.User || mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;

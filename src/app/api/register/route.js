@@ -1,26 +1,36 @@
+import bcrypt from 'bcryptjs';
 import User from "@/model/User";
-import dbConnect from "@/utils/mongodb";
+import {usersDBConnect} from "@/utils/mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  await dbConnect();
+  await usersDBConnect();
 
   const { username, name, email, password } = await request.json();
 
   try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
+    const existing_username = await User.findOne({ username });
+    if (existing_username) {
       return NextResponse.json(
-        { message: "User Already Registered!" },
-        { status: 401 }
+        { errorUsername: "username Already Registered!" },
+        { status: 409 }
+      );
+    }
+    const existing_email = await User.findOne({ email });
+    if (existing_email) {
+      return NextResponse.json(
+        { errorEmail: "email Already Registered!" },
+        { status: 409 }
       );
     }
 
-    const newUser = new User({ username, name, email, password });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, name, email, password: hashedPassword });
     await newUser.save();
     return NextResponse.json(
       { message: "Registration success!" },
-      { status: 200 }
+      { status: 201 }
     );
   } catch (error) {
     console.log(error)
