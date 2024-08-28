@@ -5,8 +5,8 @@
   "scripts": {
     "trans": "i18nexus pull -p ./src/locales",
     "dev": "bun run trans && next dev",
-    "build": "bun run trans && next build",
-    "start": "bun run trans && next start",
+    "build": "git pull origin master && npm install && npm run trans && next build",
+    "start": "git pull origin master && npm install && npm run trans && next start",
     "lint": "next lint"
   },
   "dependencies": {

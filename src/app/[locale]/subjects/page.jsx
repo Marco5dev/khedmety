@@ -10,6 +10,8 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 export default async function Subjects({ params }) {
   const { t } = await initTranslations(params.locale, i18nNamespaces);
+  const dir = params.locale === "ar" ? "rtl" : "ltr";
+
   return (
     <>
       <Header locale={params.locale} />
@@ -38,7 +40,13 @@ export default async function Subjects({ params }) {
                     <p className="opacity-50">2024/08/26 08:46 PM</p>
                   </div>
                 </div>
-                <button className="btn btn-square btn-ghost hover:bg-white/15"><FontAwesomeIcon icon={faEllipsisVertical} /></button>
+                <details className={`dropdown ${dir === "rtl" ? "dropdown-start" : "dropdown-end"} `}>
+                  <summary className="btn btn-square btn-ghost hover:bg-white/15"><FontAwesomeIcon icon={faEllipsisVertical} /></summary>
+                  <ul className="menu dropdown-content bg-neutral rounded-box z-[1] w-52 p-2 shadow">
+                    <li><button>Edit</button></li>
+                    <li><button>Delete</button></li>
+                  </ul>
+                </details>
               </div>
               <div className="p-4 lg:p-8">
                 <Link href="/subject/:id">

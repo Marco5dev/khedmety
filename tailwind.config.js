@@ -23,11 +23,11 @@ const config = {
     themes: [
       {
         logo: {
-          primary: "#cda270",
-          secondary: "#964825",
-          accent: "#8c9462",
-          neutral: "#201d20",
-          "base-100": "#ffffff",
+          "primary": "#cda270",
+          "secondary": "#964825",
+          "accent": "#8c9462",
+          "neutral": "#201d20",
+          "base-100": "#000000",
         },
       },
       "business"

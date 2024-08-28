@@ -1,19 +1,47 @@
 import NextAuth from "next-auth";
-import authOptions from "@/lib/authOptions";
+import GithubProvider from "next-auth/providers/github";
+import User from "@/model/User";
+import { usersDBConnect } from "@/utils/mongodb";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
-export async function GET(req) {
-    const { searchParams } = new URL(req.url);
-    const nextauth = searchParams.get('nextauth');
-    
-    if (!nextauth) {
-      return new Response('Bad Request: Missing nextauth', { status: 400 });
-    }
-  
-    return NextAuth(req, nextauth);
-  }
+export const authOptions = {
+  // Configure one or more authentication providers
+  providers: [
+    CredentialsProvider({
+      id: "credentials",
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        await usersDBConnect();
+        try {
+          const user = await User.findOne({ email: credentials.email });
+          if (!user) {
+            throw new Error('No user found with the email');
+          }
+          
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+          if (!isPasswordCorrect) {
+            throw new Error('Incorrect password');
+          }
 
-export async function POST(request, { params }) {
-  console.log("POST request:", request);
-  console.log("Params:", params);
-  return NextAuth(authOptions)(request, params);
-}
+          return user;
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      }
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+    // ...add more providers here
+  ],
+};
+
+export const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };

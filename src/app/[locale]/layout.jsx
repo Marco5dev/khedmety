@@ -1,10 +1,13 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { getServerSession } from "next-auth";
+import AuthProvider from "@/utils/SessionsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params }) {
   const dir = params.locale === "ar" ? "rtl" : "ltr";
+  const session = await getServerSession();
   return (
     <html lang={params.locale} dir={dir}>
       <head>
@@ -78,8 +81,13 @@ export default function RootLayout({ children, params }) {
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthProvider session={session}>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }

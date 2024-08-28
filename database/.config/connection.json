@@ -1,1 +1,0 @@
-{"database":{"adapter":"json","dataPath":"./database","devLogs":{"enable":true,"path":"./Logs"},"secure":{"enable":false}}}

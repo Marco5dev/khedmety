@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Form() {
   const searchParams = useSearchParams();
@@ -36,6 +36,7 @@ export default function Form() {
   const [errorUsername, setErrorUsername] = useState("");
   const router = useRouter();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const session = useSession()
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -126,20 +127,25 @@ export default function Form() {
   const handleLogin = async (e) => {
     e.preventDefault();
   
-    const result = await signIn("credentials", {
+    const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
   
-    if (result.error) {
-      setError(result.error);
+    if (res.error) {
+      console.log(res)
+      setError(res.error);
     } else {
       return router.push("/");
     }
   };
   
-  
+  useEffect(()=>{
+    if(session?.status === "authenticated") {
+      router.replace("/")
+    }
+  },[session, router])
 
   useEffect(() => {
     if (type && type !== formType) {
@@ -270,6 +276,7 @@ export default function Form() {
                        {strength || "Unknown"}
                     </p>
                   </div>
+                  <p className="text-red-500">{Error}</p>
                 <button className="login-button-submit" type="submit">
                   {t("register")}
                 </button>

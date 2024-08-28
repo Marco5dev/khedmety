@@ -40,11 +40,14 @@
 body {
   /* color: rgb(var(--foreground-rgb));
   background: #201d20; */
-  @apply text-[rgb(var(--foreground-rgb))] bg-neutral;
+  @apply text-[rgb(var(--foreground-rgb))] bg-neutral bg-neutral bg-no-repeat bg-cover bg-center;
 }
 
 .main-bg {
   background-image: var(--background-gradient);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 @layer utilities {
