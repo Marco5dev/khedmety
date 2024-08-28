@@ -15,7 +15,7 @@ export default async function Login({ params }) {
       locale={params.locale}
       resources={resources}
     >
-      <main className="flex min-h-screen min-w-screen justify-center items-start content-start lg:items-center lg:content-center login-form bg-gradient-main">
+      <main className="flex min-h-screen min-w-screen justify-center items-start content-start lg:items-center lg:content-center main-bg bg-gradient-main">
         <Form />
       </main>
     </TranslationsProvider>
