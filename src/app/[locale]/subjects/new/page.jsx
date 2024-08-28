@@ -1,25 +1,13 @@
 "use client";
 
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
-import {
-  faAt,
-  faLock,
-  faSignature,
-  faUser,
-  faEyeLowVision,
-  faEye,
-} from "@fortawesome/free-solid-svg-icons";
-import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 export default function Form() {
-  const searchParams = useSearchParams();
-  const { t } = useTranslation();
   const router = useRouter();
   const session = useSession()
   const [title, setTitle] = useState("")
@@ -70,7 +58,9 @@ export default function Form() {
   },[session, router])
 
   return (
-    <div className="flex justify-center items-start lg:items-center w-screen h-screen mt-10 lg:mt-0">
+    <>
+    <Header />
+    <div className="flex justify-center items-start lg:items-center w-screen h-screen main-bg mt-10 lg:mt-0">
       <div className="w-full max-w-md">
         <h1 className="text-xl lg:text-2xl font-bold text-center mb-8 uppercase">
           New Subject
@@ -85,7 +75,7 @@ export default function Form() {
                     type="text"
                     required
                     className="login-input"
-                    placeholder={t("enter-your-full-name")}
+                    placeholder={"Enter the Title"}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
@@ -93,16 +83,11 @@ export default function Form() {
                 <div className="login-flex-column">
                   <label>Description</label>
                 </div>
-                <div className="login-inputForm">
-                  <textarea className="textarea textarea-bordered" 
+                  <textarea className="textarea textarea-bordered bg-[#2b2b2b]" 
                     required
-                    placeholder={"Description"}
+                    placeholder={"Enter the description"}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}></textarea>
-                </div>
-                <div className="login-flex-column">
-                  <label>{t("email")}</label>
-                </div>
                 <button className="login-button-submit" type="submit">
                   Submit
                 </button>
@@ -110,5 +95,7 @@ export default function Form() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
