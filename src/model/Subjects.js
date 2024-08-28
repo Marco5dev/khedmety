@@ -15,16 +15,7 @@ const SubjectsSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: false,
-    },
-    image: {
-      filename: { type: String },
-      contentType: { type: String },
-      base64: { type: String },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    },
+    }
   },
   { timestamps: true }
 );

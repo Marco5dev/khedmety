@@ -3,21 +3,24 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
-export default function Form() {
+export default function Form({ params }) {
   const router = useRouter();
   const session = useSession()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const dir = params.locale === "ar" ? "rtl" : "ltr";
 
   const handleRegisteration = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/subject", {
+      const response = await axios.post("/api/subjects", {
         title,
         description
       });
@@ -51,16 +54,23 @@ export default function Form() {
     }
   };
 
-  useEffect(()=>{
-    if(session?.status === "authenticated") {
-      router.replace("/subjects")
-    }
-  },[session, router])
+  const goBack = () => {
+    router.back(); // Go back to the previous page
+  };
 
   return (
     <>
-    <Header />
-    <div className="flex justify-center items-start lg:items-center w-screen h-screen main-bg mt-10 lg:mt-0">
+    {
+      dir === "ltr" ? (    <button onClick={goBack} className="btn btn-ghost fixed top-0 left-0 btn-square rounded-full mt-2 ml-2">
+        <FontAwesomeIcon icon={faArrowLeft} />
+       </button>) : (
+            <button onClick={goBack} className="btn btn-ghost fixed top-0 right-0 btn-square rounded-full mt-2 ml-2">
+            <FontAwesomeIcon icon={faArrowRight} />
+           </button>
+       )
+    }
+
+    <main className="flex justify-center items-start lg:items-center w-full h-screen main-bg mt-10 lg:mt-0">
       <div className="w-full max-w-md">
         <h1 className="text-xl lg:text-2xl font-bold text-center mb-8 uppercase">
           New Subject
@@ -94,7 +104,7 @@ export default function Form() {
               </form>
         </div>
       </div>
-    </div>
+    </main>
     <Footer />
     </>
   );

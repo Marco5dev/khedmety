@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "trans": "i18nexus pull -p ./src/locales",
-    "dev": "bun run trans && next dev",
+    "dev": "git pull origin master && npm install && npm run trans && next dev",
     "build": "git pull origin master && npm install && npm run trans && next build",
     "start": "git pull origin master && npm install && npm run trans && next start",
     "lint": "next lint"
@@ -30,7 +30,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-i18next": "^15.0.1",
-    "verse.db": "^2.1.24"
+    "verse.db": "^2.2.13"
   },
   "devDependencies": {
     "i18nexus-cli": "^3.5.0",
