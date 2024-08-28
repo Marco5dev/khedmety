@@ -75,7 +75,7 @@ export default function Menu({ locale }) {
                   className="dropdown-content menu bg-neutral rounded-box z-[1] w-fit p-2 shadow"
                 >
                   <ul className="menu bg-neutral rounded-box w-56">
-                    <li className="menu-title text-white/50">{session?.data.name}</li>
+                    <li className="menu-title text-white/50">{session.user?.name}</li>
                     <li>
                       <a>Profile</a>
                     </li>
@@ -145,7 +145,7 @@ export default function Menu({ locale }) {
                       className="dropdown-content rounded-box z-[1] w-fit p-2 shadow"
                     >
                       <ul className="bg-neutral rounded-box w-56">
-                        <li className="menu-title text-white/50">{session?.data.name}</li>
+                        <li className="menu-title text-white/50">{session.user?.name}</li>
                         <li className="hover:bg-neutral-600">
                           <a>Profile</a>
                         </li>
