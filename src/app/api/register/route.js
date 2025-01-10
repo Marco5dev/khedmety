@@ -1,10 +1,10 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 import User from "@/model/User";
-import {usersDBConnect} from "@/utils/mongodb";
+import { DBConnect } from "@/utils/mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  await usersDBConnect();
+  await DBConnect();
 
   const { username, name, email, password } = await request.json();
 
@@ -24,16 +24,20 @@ export async function POST(request) {
       );
     }
 
-
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, name, email, password: hashedPassword });
+    const newUser = new User({
+      username,
+      name,
+      email,
+      password: hashedPassword,
+    });
     await newUser.save();
     return NextResponse.json(
       { message: "Registration success!" },
       { status: 201 }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

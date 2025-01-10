@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 export default function Menu({ locale }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const searchInputRef = useRef(null);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const dir = locale === "ar" ? "rtl" : "ltr";
   const { data: session } = useSession();
@@ -21,6 +22,18 @@ export default function Menu({ locale }) {
     await signOut();
     router.push("/");
   };
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if ((e.ctrlKey && e.key === 'k') || (e.ctrlKey && e.altKey && e.key === 'k')) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   return (
     <>
@@ -42,7 +55,12 @@ export default function Menu({ locale }) {
           )}
 
           <label className="input input-bordered bg-neutral flex items-center gap-2">
-            <input type="text" className="grow" placeholder={t("search")} />
+            <input 
+              ref={searchInputRef}
+              type="text" 
+              className="grow" 
+              placeholder={t("search")} 
+            />
             <kbd className="kbd kbd-sm w-fit bg-neutral-600">⌘</kbd> {"/"}
             <kbd className="kbd kbd-sm w-fit bg-neutral-600">ctrl</kbd> {"+"}
             <kbd className="kbd kbd-sm bg-neutral-600">K</kbd>
@@ -59,7 +77,7 @@ export default function Menu({ locale }) {
           ) : (
             <>
               <div
-                className={`dropdown ${
+                className={`dropdown ml-3 ${
                   dir === "ltr" ? "dropdown-end" : "dropdown-start"
                 }`}
               >
@@ -80,7 +98,7 @@ export default function Menu({ locale }) {
                       <a>Profile</a>
                     </li>
                     <li>
-                      <button onCLick={() => handleSignout}>Logout</button>
+                      <button onClick={() => handleSignout}>Logout</button>
                     </li>
                     <li>
                       <LanguageChanger />
@@ -150,7 +168,7 @@ export default function Menu({ locale }) {
                           <a>Profile</a>
                         </li>
                         <li className="hover:bg-neutral-600">
-                          <button onCLick={() => handleSignout}>Logout</button>
+                          <button onClick={() => handleSignout}>Logout</button>
                         </li>
                         <li>
                           <LanguageChanger />
@@ -177,7 +195,12 @@ export default function Menu({ locale }) {
 
           <nav className="flex flex-col flex-grow">
             <label className="input input-bordered bg-neutral flex items-center gap-2">
-              <input type="text" className="grow" placeholder={t("search")} />
+              <input 
+                ref={searchInputRef}
+                type="text" 
+                className="grow" 
+                placeholder={t("search")} 
+              />
               <kbd className="kbd kbd-sm bg-neutral-600">⌘</kbd>
               <kbd className="kbd kbd-sm bg-neutral-600">K</kbd>
             </label>

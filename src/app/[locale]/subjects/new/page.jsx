@@ -12,7 +12,12 @@ import { signIn, useSession } from "next-auth/react";
 export default function Form(props) {
   const params = use(props.params);
   const router = useRouter();
-  const session = useSession()
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push('/login');
+    },
+  });
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const dir = params.locale === "ar" ? "rtl" : "ltr";
@@ -28,7 +33,7 @@ export default function Form(props) {
 
       if (response.status === 201) {
         alert(response.data.message);
-        return router.push("/login?type=login");
+        return router.push("/subjects");
       } else if (response.status === 409) {
         if(response.data.errorEmail) setErrorEmail(response.data.errorEmail);
         if(response.data.errorUsername) setErrorUsername(response.data.errorUsername);
@@ -58,6 +63,10 @@ export default function Form(props) {
   const goBack = () => {
     router.back(); // Go back to the previous page
   };
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
