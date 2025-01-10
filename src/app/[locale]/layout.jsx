@@ -5,7 +5,13 @@ import AuthProvider from "@/utils/SessionsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default async function RootLayout({ children, params }) {
+export default async function RootLayout(props) {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const dir = params.locale === "ar" ? "rtl" : "ltr";
   const session = await getServerSession();
   return (

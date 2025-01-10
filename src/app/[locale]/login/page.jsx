@@ -3,7 +3,8 @@ import Form from "./form";
 import TranslationsProvider from "@/components/TranslationsProvider";
 const i18nNamespaces = ["login"];
 
-export default async function Login({ params }) {
+export default async function Login(props) {
+  const params = await props.params;
   const { resources } = await initTranslations(
     params.locale,
     i18nNamespaces

@@ -5,7 +5,8 @@ import initTranslations from "@/i18n.js";
 import Link from "next/link";
 const i18nNamespaces = ['home'];
 
-export default async function Home({ params }) {
+export default async function Home(props) {
+  const params = await props.params;
   const { t } = await initTranslations(params.locale, i18nNamespaces);
   return (
     <>

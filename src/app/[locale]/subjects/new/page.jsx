@@ -2,14 +2,15 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
-export default function Form({ params }) {
+export default function Form(props) {
+  const params = use(props.params);
   const router = useRouter();
   const session = useSession()
   const [title, setTitle] = useState("")

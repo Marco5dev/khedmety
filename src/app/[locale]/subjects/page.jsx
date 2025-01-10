@@ -1,6 +1,6 @@
 "use client";  // Keeping this as a client-side component
 
-import React from "react";
+import React, { use } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
@@ -11,17 +11,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
 
-export default function Subjects({ params }) {
+export default function Subjects(props) {
+  const params = use(props.params);
   const dir = params.locale === "ar" ? "rtl" : "ltr";
   const [data, setData] = React.useState([]);
 
   // React.useEffect(() => {
-    
+
   //   const fetchData = async () => {
   //     try {
   //       const res = await axios.get("/api/subjects");
   //       console.log("getting data", res)
-  
+
   //       if (res.status === 200) {
   //         setData(res.data.subjects);
   //       } else if (res.status === 404) {
@@ -33,11 +34,11 @@ export default function Subjects({ params }) {
   //       console.error("Fetch data error:", err.response ? err.response.data : err.message);
   //     }
   //   };
-  
+
   //   fetchData();
   // }, []); // Ensure the dependency array is correct to avoid infinite loops
 
-  
+
   React.useEffect(()=>{
     const fetchData = async () => {
       const res = await axios.get("/api/subjects");
